@@ -1,0 +1,49 @@
+@media screen and (min-width: 425px) {
+    /* Courses page */
+    #carousel-reviews .carousel-inner {
+        height: 475px;
+    }
+}
+@media screen and (min-width: 576px) {
+    body {
+        padding-bottom: 220px;
+    }
+    #footer-content {
+        height: 220px;
+    }
+    /* Courses page */
+    .modal-dialog {
+        max-width: 550px!important;
+        width: 550px!important;
+    }
+    .modal-dialog td {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        padding-bottom: 140px;
+    }
+    #footer-content {
+        height: 140px;
+    }
+    #footer-info {
+        height: 100%;
+    }
+    .mm-info {
+        height: 60%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    body {
+        padding-bottom: 115px;
+    }
+    #footer-content {
+        height: 115px;
+    }
+    #author-container .row {
+        width: 70%;
+    }
+}

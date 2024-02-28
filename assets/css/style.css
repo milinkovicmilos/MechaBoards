@@ -1,0 +1,76 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+:root {
+    --link-color: rgba(0, 0, 0, 0.65);
+    --link-hover-color: rgba(0, 0, 0, 0.8);
+    --input-color: #808080;
+    --focus-color: rgb(56, 56, 56);
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 290px; /* Footer height */
+    font-family: 'Roboto', sans-serif;
+}
+
+.mm-dark {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.mm-hr, #welcome, #footer-content, #offer, #reviews, #course-offers, #contact-reviews-slider, #contact-section {
+    width: 90%;
+    margin: 0px auto;
+}
+.mm-vertical-line {
+    position: absolute;
+    height: 75%;
+    top: 12.5%;
+    right: 0px;
+    outline: 1px solid rgba(128, 128, 128, 0.5);
+}
+
+/* Header */
+#nav-menu-container {
+    width: 90%;
+}
+#nav-menu-container .collapse {
+    width: clamp(35%, calc(550px - 5vw), 45%);
+    flex-grow: 0;
+}
+#nav-menu-container .collapse ul {
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* footer */
+footer {
+    /* Keeps footer at the bottom of the screen */
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+#footer-content {
+    height: 290px; /* Default (mobile) footer height */
+}
+#footer-info {
+    height: 45%;
+}
+#socials-container {
+    padding: 10px 0px;
+}
+#to-top-btn {
+    position: fixed;
+    z-index: 1;
+    bottom: 20px;
+    right: 30px;
+}
+i {
+    color: var(--link-color);
+    transition: color 0.15s;
+}
+i:hover {
+    color: var(--link-hover-color);
+}

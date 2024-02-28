@@ -11,12 +11,12 @@
     },
     {
         "id" : 3,
-        "name" : "Mechanical keyboards",
+        "name" : "Mechanical",
         "href" : "mechanical.html"
     },
     {
         "id" : 4,
-        "name" : "Membrane keyboards",
+        "name" : "Membrane",
         "href" : "membrane.html"
     },
     {

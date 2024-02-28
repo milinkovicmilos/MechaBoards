@@ -37,7 +37,6 @@ body {
     width: 90%;
 }
 #nav-menu-container .collapse {
-    width: clamp(35%, calc(550px - 5vw), 45%);
     flex-grow: 0;
 }
 #nav-menu-container .collapse ul {

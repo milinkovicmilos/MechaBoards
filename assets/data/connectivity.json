@@ -1,10 +1,10 @@
 [
     {
         "id" : 1,
-        "name" : "wired"
+        "name" : "Wired"
     },
     {
         "id" : 2,
-        "name" : "wireless"
+        "name" : "Wireless"
     }
 ]

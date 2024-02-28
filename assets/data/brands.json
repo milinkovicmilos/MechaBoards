@@ -1,0 +1,18 @@
+[
+    {
+        "id" : 1,
+        "name" : "Keychron"
+    },
+    {
+        "id" : 2,
+        "name" : "Razer"
+    },
+    {
+        "id" : 3,
+        "name" : "SteelSeries"
+    },
+    {
+        "id" : 4,
+        "name" : "NuPhy"
+    }
+]

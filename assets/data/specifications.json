@@ -1,0 +1,26 @@
+[
+    {
+        "id" : 1,
+        "name" : "Wrist rest"
+    },
+    {
+        "id" : 2,
+        "name" : "Hot-Swappable"
+    },
+    {
+        "id" : 3,
+        "name" : "Full size"
+    },
+    {
+        "id" : 4,
+        "name" : "TLK (TenKeyLess)"
+    },
+    {
+        "id" : 5,
+        "name" : "60%"
+    },
+    {
+        "id" : 6,
+        "name" : "N-Key rollover"
+    }
+]

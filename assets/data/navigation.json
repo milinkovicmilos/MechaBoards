@@ -1,0 +1,27 @@
+[
+    {
+        "id" : 1,
+        "name" : "Home",
+        "href" : "index.html"
+    },
+    {
+        "id" : 2,
+        "name" : "All products",
+        "href" : "products.html"
+    },
+    {
+        "id" : 3,
+        "name" : "Mechanical keyboards",
+        "href" : "mechanical.html"
+    },
+    {
+        "id" : 4,
+        "name" : "Membrane keyboards",
+        "href" : "membrane.html"
+    },
+    {
+        "id" : 5,
+        "name" : "Accessories",
+        "href" : "accessories.html"
+    }
+]

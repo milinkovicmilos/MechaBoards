@@ -1,0 +1,14 @@
+[
+    {
+        "id" : 1,
+        "name" : "Red switch"
+    },
+    {
+        "id" : 2,
+        "name" : "Blue switch"
+    },
+    {
+        "id" : 3,
+        "name" : "Brown switch"
+    }
+]

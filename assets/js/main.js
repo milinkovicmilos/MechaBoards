@@ -20,6 +20,8 @@ const SIZES = [];
 const PRODUCTTYPES = [];
 
 const PRODUCTSBLOCK = "#products";
+const IMGDESCBLOCK = "#img-desc";
+const HEADINGOPTIONSBLOCK = "#heading-options";
 
 const FILTER = {
     "brand" : [],
@@ -78,6 +80,77 @@ async function initializePage() {
         await generateFilter(SPECIFICATIONSURL, SPECIFICATIONS, "specification");
         await generateFilter(SIZESURL, SIZES, "size");
     }
+
+    if (PATH == "mechanical.html") {
+        let products = await fetchData(PRODUCTSURL);
+        products = products.filter(x => x["product_type"] == 1);
+        products.forEach(p => PRODUCTS.push(p));
+        displayProducts(products);
+
+        let sortValues = await fetchData(SORTVALUESURL);
+        sortValues.forEach(s => SORTVALUES.push(s));
+        let sortBlock = $("#sort");
+        showSortTypes(sortBlock, SORTVALUES);
+
+        let brandFilterBlock = $("#brand");
+        showFilter(brandFilterBlock, BRANDS);
+        
+        await generateFilter(CONNECTIVITYURL, CONNECTIVITY, "connectivity");
+        await generateFilter(SPECIFICATIONSURL, SPECIFICATIONS, "specification");
+        await generateFilter(SIZESURL, SIZES, "size");
+    }
+
+    if (PATH == "membrane.html") {
+        let products = await fetchData(PRODUCTSURL);
+        products = products.filter(x => x["product_type"] == 2);
+        products.forEach(p => PRODUCTS.push(p));
+        displayProducts(products);
+
+        let sortValues = await fetchData(SORTVALUESURL);
+        sortValues.forEach(s => SORTVALUES.push(s));
+        let sortBlock = $("#sort");
+        showSortTypes(sortBlock, SORTVALUES);
+
+        let brandFilterBlock = $("#brand");
+        showFilter(brandFilterBlock, BRANDS);
+        
+        await generateFilter(CONNECTIVITYURL, CONNECTIVITY, "connectivity");
+        await generateFilter(SPECIFICATIONSURL, SPECIFICATIONS, "specification");
+        await generateFilter(SIZESURL, SIZES, "size");
+    }
+
+    if (PATH == "accessories.html") {
+        let products = await fetchData(PRODUCTSURL);
+        products = products.filter(x => x["product_type"] == 3);
+        products.forEach(p => PRODUCTS.push(p));
+        displayProducts(products);
+
+        let sortValues = await fetchData(SORTVALUESURL);
+        sortValues.forEach(s => SORTVALUES.push(s));
+        let sortBlock = $("#sort");
+        showSortTypes(sortBlock, SORTVALUES);
+
+        let brandFilterBlock = $("#brand");
+        showFilter(brandFilterBlock, BRANDS);
+    }
+
+    if (PATH == "product.html") {
+        let params = new URLSearchParams(document.location.search);
+        let productId = params.get("id");
+        let products = await fetchData(PRODUCTSURL);
+        let product = products.filter(x => x.id == productId)[0];
+
+        let connectivityValues = await fetchData(CONNECTIVITYURL);
+        connectivityValues.forEach(c => CONNECTIVITY.push(c));
+
+        let sizesValues = await fetchData(SIZESURL);
+        sizesValues.forEach(s => SIZES.push(s));
+
+        let specificationValues = await fetchData(SPECIFICATIONSURL);
+        specificationValues.forEach(s => SPECIFICATIONS.push(s));
+
+        displaySingleProduct(product);
+    }
 }
 
 // Displays navigation bars on the page provided the array of nav objects
@@ -119,6 +192,7 @@ function displayProducts(productsArray) {
             }
         }
     }
+
     // Calculating rows and adding product placeholders
     let html = "";
     console.log(arr);
@@ -137,7 +211,7 @@ function displayProducts(productsArray) {
             <div class="p-3 card position-relative h-100">
                 <img class="card-img-top" src="${product.img.src}" alt="${product.img.alt}"/>
                 <div class="card-body position-relative">
-                    <h3>${getBrandName(product.brand_id)}</h3>
+                    <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
                     <h4>${product.name}</h4>
                     <p>$${product.price.current}</p>
                     ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s>` : ""}
@@ -147,6 +221,60 @@ function displayProducts(productsArray) {
             </div>
         `);
     }
+}
+
+function displaySingleProduct(product) {
+    // First block
+    let html = `
+        <img class="img-fluid" src="${product.img.src}" alt="${product.img.alt}">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td class="w-25">Manufacturer: </td>
+                    <td>${getSingleName(BRANDS, product.brand_id)}</td>
+                </tr>
+                <tr>
+                    <td class="w-25">Model: </td>
+                    <td>${product.name}</td>
+                </tr>
+                ${product.hasOwnProperty("connectivity") ? `
+                    <tr>
+                        <td class="w-25">Connectivity:</td>
+                        <td>${getSingleName(CONNECTIVITY, product.connectivity)}</td>
+                    </tr>`
+                : ""}
+                ${product.hasOwnProperty("size") ? `
+                    <tr>
+                        <td class="w-25">Size:</td>
+                        <td>${getSingleName(SIZES, product.size)}</td>
+                    </tr>`
+                : ""}
+                ${product.hasOwnProperty("specifications") ? `
+                    <tr>
+                        <td class="w-25">Specifications:</td>
+                        <td>${getMultipleNames(SPECIFICATIONS, product.specifications)}</td>
+                    </tr>`
+                : ""}
+            </tbody>
+        </table>
+    `;
+    $(IMGDESCBLOCK).html(html);
+    
+    // Second block
+    let secondHtml = `
+        <h2>${getSingleName(BRANDS, product.brand_id)}</h2>
+        <h3>${product.name}</h3>
+        <p>Price : $${product.price.current}</p>
+        ${product.price.hasOwnProperty("previous") ? `<s class="py-1">$${product.price.previous}</s>` : ""}
+        <p class="pt-3 mb-1">Quantity:</p>
+        <div class="row mx-0 justify-content-between" style="width: 100px;">
+            <button class="w-25 text-center">&lt</button>
+            <input type="text" readonly class="w-25 text-center form-control-plaintext d-block" id="quantity" value="1">
+            <button class="w-25 text-center d-block">&gt</button>
+        </div>
+        <button class="my-3 px-3">Add to Cart</button>
+    `;
+    $(HEADINGOPTIONSBLOCK).html(secondHtml);
 }
 
 function applyFilter(validValues, arrayToFilter, propertyToFilter) {
@@ -251,8 +379,31 @@ function sortProducts(sortType) {
     displayProducts(PRODUCTS);
 }
 
-function getBrandName(id) {
-    return BRANDS.filter(x => x.id == id)[0].name;
+function getSingleName(objArray, id) {
+    try {
+        return objArray.filter(x => x.id == id)[0].name;
+    }
+    catch (exception) {
+        console.log(exception);
+        return "/";
+    }
+}
+
+function getMultipleNames(objArray, idArray) {
+    try {
+        let names = "";
+        console.log(idArray)
+        console.log(objArray)
+        for (const obj of objArray) {
+            if (idArray.includes(obj.id)) names += `${obj.name}; `;
+        }
+        if (names == undefined) return "/";
+        return names;
+    }
+    catch (exception) {
+        console.log(exception);
+        return "/";
+    }
 }
 
 function showSwitchTypes(ids) {

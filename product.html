@@ -35,40 +35,9 @@
         </nav>
     </header>
     <main>
-        <section class="py-4">
-            <div class="container-fluid mx-auto row justify-content-between">
-                <div class="accordion col-12 col-xl-3 mb-3" id="filters-accordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sort-accordion" aria-expanded="true" aria-controls="#sort-accordion">
-                                Sort
-                            </button>
-                        </h2>
-                        <div id="sort-accordion" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <select name="sort" class="form-select" id="sort"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#brand-filter" aria-expanded="true" aria-controls="#brand-filter">
-                                Brand
-                            </button>
-                        </h2>
-                        <div id="brand-filter" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <ul id="brand" class="list-group"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-xl-9 mx-auto row align-content-start" id="products"></div>
-            </div>
-        </section>
-        <div class="text-black mm-hr"><hr/></div>
-        <div id="to-top-btn">
-            <a href="#" class="fs-1"><i class="fa-solid fa-circle-arrow-up"></i></a>
+        <div class="container-xl row mx-auto py-4">
+            <div id="img-desc" class="col-8 px-4"></div>
+            <div id="heading-options" class="col-4 px-4"></div>
         </div>
     </main>
     <footer>

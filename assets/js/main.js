@@ -241,20 +241,20 @@ function displaySingleProduct(product) {
                     <tr>
                         <td class="w-25">Connectivity:</td>
                         <td>${getSingleName(CONNECTIVITY, product.connectivity)}</td>
-                    </tr>`
-                : ""}
+                    </tr>
+                ` : ""}
                 ${product.hasOwnProperty("size") ? `
                     <tr>
                         <td class="w-25">Size:</td>
                         <td>${getSingleName(SIZES, product.size)}</td>
-                    </tr>`
-                : ""}
+                    </tr>
+                ` : ""}
                 ${product.hasOwnProperty("specifications") ? `
                     <tr>
                         <td class="w-25">Specifications:</td>
                         <td>${getMultipleNames(SPECIFICATIONS, product.specifications)}</td>
-                    </tr>`
-                : ""}
+                    </tr>
+                ` : ""}
             </tbody>
         </table>
     `;
@@ -266,15 +266,39 @@ function displaySingleProduct(product) {
         <h3>${product.name}</h3>
         <p>Price : $${product.price.current}</p>
         ${product.price.hasOwnProperty("previous") ? `<s class="py-1">$${product.price.previous}</s>` : ""}
+        ${product.hasOwnProperty("switch_types") ? `
+            <br>
+            <div class="btn-group py-2" role="group">
+                ${generateSwitchButtons(product.switch_types)}
+            </div>
+        ` : ""}
         <p class="pt-3 mb-1">Quantity:</p>
         <div class="row mx-0 justify-content-between" style="width: 100px;">
-            <button class="w-25 text-center">&lt</button>
+            <button class="w-25 text-center" onClick="decreaseQuantity()">&lt</button>
             <input type="text" readonly class="w-25 text-center form-control-plaintext d-block" id="quantity" value="1">
-            <button class="w-25 text-center d-block">&gt</button>
+            <button class="w-25 text-center d-block" onClick="increaseQuantity()">&gt</button>
         </div>
-        <button class="my-3 px-3">Add to Cart</button>
+        <button id="add-to-cart" class="my-3 px-3">Add to Cart</button>
+        <div id="post-add" style="display: none">
+            <div class="alert alert-success">You have successfully added item to cart.</div>
+            <div class="row justify-content-between w-100 mx-auto">
+                <button id="hide" class="btn btn-light" onClick="$(this).parent().parent().slideUp();" style="width: 40%;">
+                    Stay
+                </button>
+                <button id="hide" class="btn btn-light" style="width: 40%;">
+                    <a href="/cart.html" class="text-reset text-decoration-none">Go to cart</a>
+                </button>
+            </div>
+        </div>
     `;
     $(HEADINGOPTIONSBLOCK).html(secondHtml);
+    $("#add-to-cart").click(() => {
+        if (product.hasOwnProperty("switch_types")) {
+            addToCart(product.id, $("#quantity").val(), $("input[type='radio']:checked").val());
+        } else {
+            addToCart(product.id, $("#quantity").val());
+        }
+    });
 }
 
 function applyFilter(validValues, arrayToFilter, propertyToFilter) {
@@ -375,6 +399,9 @@ function sortProducts(sortType) {
         case 5:
             PRODUCTS.sort((a, b) => a.price.current < b.price.current);
             break;
+        default:
+            PRODUCTS.sort((a, b) => a.id > b.id);
+            break;
     }
     displayProducts(PRODUCTS);
 }
@@ -417,4 +444,60 @@ function showSwitchTypes(ids) {
     return html + "</div>";
 }
 
+function generateSwitchButtons(switchIds) {
+    let params = new URLSearchParams(document.location.search);
+    let selected = parseInt(params.get("switch"));
+
+    if (selected == null || !switchIds.includes(selected)) selected = switchIds[0];
+    let html = "";
+    for (const sw of switchIds) {
+        html += `
+            <input type="radio" class="btn-check" name="switchradio" value="${sw}" id="switch-${sw}" autocomplete="off" ${selected == sw ? "checked" : ""}>
+            <label class="btn btn-outline-primary" for="switch-${sw}">${getSingleName(SWITCHTYPES, sw)}</label>
+        `;
+    }
+    return html;
+}
+
+function decreaseQuantity() {
+    let quantityBlock = $("#quantity");
+    let quantity = parseInt($(quantityBlock).val());
+    if (quantity > 1) {
+        $(quantityBlock).val(quantity - 1);
+    }
+}
+
+function increaseQuantity() {
+    let quantityBlock = $("#quantity");
+    let quantity = parseInt($(quantityBlock).val());
+    if (quantity < 10) {
+        $(quantityBlock).val(quantity + 1)
+    }
+}
+
+function addToCart(itemId, quantity, switchType = 0) {
+    const cartObj = {
+        "id" : itemId,
+        "quantity" : parseInt(quantity),
+        "switch_type" : parseInt(switchType)
+    }
+    let cart = getLocalStorage("cart");
+    cart.push(cartObj);
+    addToLocalStorage("cart", cart);
+    $("#post-add").slideDown();
+    console.log("Added to cart " + itemId + " Quantity : " + quantity);
+}
+
+function addToLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getLocalStorage(key) {
+    return JSON.parse(localStorage.getItem(key));
+}
+
 initializePage();
+
+if (getLocalStorage("cart") == null) {
+    addToLocalStorage("cart", []);
+}

@@ -1,14 +1,18 @@
 [
     {
         "id" : 1,
-        "name" : "Name Ascending"
+        "name" : "Recommended"
     },
     {
         "id" : 2,
-        "name" : "Name Descending"
+        "name" : "Name Ascending"
     },
     {
         "id" : 3,
+        "name" : "Name Descending"
+    },
+    {
+        "id" : 4,
         "name" : "Price Ascending"
     },
     {

@@ -1,0 +1,14 @@
+[
+    {
+        "id" : 1,
+        "name" : "Full-Size"
+    },
+    {
+        "id" : 2,
+        "name" : "TLK (TenKeyLess)"
+    },
+    {
+        "id" : 3,
+        "name" : "60%"
+    }
+]

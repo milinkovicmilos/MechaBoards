@@ -40,13 +40,37 @@
                 <div class="accordion col-12 col-xl-3 mb-3" id="filters-accordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sort-accordion" aria-expanded="true" aria-controls="#sort-accordion">
+                                Sort
+                            </button>
+                        </h2>
+                        <div id="sort-accordion" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <select name="sort" class="form-select" id="sort"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#producttype-accordion" aria-expanded="true" aria-controls="#producttype-accordion">
+                                Category
+                            </button>
+                        </h2>
+                        <div id="producttype-accordion" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <ul id="producttype" class="list-group"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#brand-filter" aria-expanded="true" aria-controls="#brand-filter">
                                 Brand
                             </button>
                         </h2>
                         <div id="brand-filter" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                Filters here ....
+                                <ul id="brand" class="list-group"></ul>
                             </div>
                         </div>
                     </div>
@@ -58,7 +82,7 @@
                         </h2>
                         <div id="switch-filter" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                Filters here ....
+                                <ul id="switch" class="list-group"></ul>
                             </div>
                         </div>
                     </div>
@@ -70,7 +94,7 @@
                         </h2>
                         <div id="conn-filter" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                Filters here ....
+                                <ul id="connectivity" class="list-group"></ul>
                             </div>
                         </div>
                     </div>
@@ -82,12 +106,24 @@
                         </h2>
                         <div id="spec-filter" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                Filters here ....
+                                <ul id="specification" class="list-group"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#size-filter" aria-expanded="true" aria-controls="#size-filter">
+                                Size
+                            </button>
+                        </h2>
+                        <div id="size-filter" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <ul id="size" class="list-group"></ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xl-9 mx-auto row justify-content-between" id="all-products">div>
+                <div class="col-12 col-xl-9 mx-auto row align-content-start" id="products">div>
                 </div>
             </div>
         </section>

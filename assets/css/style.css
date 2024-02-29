@@ -37,6 +37,10 @@ section {
     outline: 1px solid rgba(128, 128, 128, 0.5);
 }
 
+.mm-product {
+    width: 90%;
+}
+
 /* Header */
 #nav-menu-container {
     width: 90%;

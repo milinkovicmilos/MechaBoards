@@ -35,22 +35,62 @@
         </nav>
     </header>
     <main>
-        <section class="py-4" id="welcome">
-            <h2 class="fw-bold text-center text-decoration-underline mb-5">MechaBoards: Unleash Your Typing Potential!</h2>
-            <div class="row justify-content-evenly align-items-stretch gap-4">
-                <div class="col-12 col-md-5 bg-secondary-subtle rounded p-3">
-                    <div class="d-flex flex-column align-content-center justify-content-evenly">
-                        <p class="fs-5">
-                            Whether you're a gaming enthusiast, a coding maestro, 
-                            or a professional in need of the perfect typing tool, 
-                            MechaBoards has the ideal keyboard for you. Upgrade your 
-                            typing experience at MechaBoards.
-                        </p>
+        <section class="py-4">
+            <div class="container-fluid mx-auto row justify-content-between">
+                <div class="accordion col-12 col-xl-3 mb-3" id="filters-accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#brand-filter" aria-expanded="true" aria-controls="#brand-filter">
+                                Brand
+                            </button>
+                        </h2>
+                        <div id="brand-filter" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                Filters here ....
+                            </div>
+                        </div>
                     </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#switch-filter" aria-expanded="true" aria-controls="#switch-filter">
+                                Switch types
+                            </button>
+                        </h2>
+                        <div id="switch-filter" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                Filters here ....
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#conn-filter" aria-expanded="true" aria-controls="#conn-filter">
+                                Connectivity
+                            </button>
+                        </h2>
+                        <div id="conn-filter" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                Filters here ....
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#spec-filter" aria-expanded="true" aria-controls="#spec-filter">
+                                Specifications
+                            </button>
+                        </h2>
+                        <div id="spec-filter" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                Filters here ....
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-9 mx-auto row justify-content-between" id="all-products">div>
                 </div>
             </div>
         </section>
-        <div class="text-black mm-hr"><hr/></div>
         <div id="to-top-btn">
             <a href="#" class="fs-1"><i class="fa-solid fa-circle-arrow-up"></i></a>
         </div>

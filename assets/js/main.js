@@ -3,9 +3,11 @@ const NAVURL = "/assets/data/navigation.json";
 const RECOMMENDEDURL = "/assets/data/recommended.json";
 const BRANDSURL = "/assets/data/brands.json";
 const SWITCHTYPESURL = "/assets/data/switchtypes.json";
+const PRODUCTSURL = "/assets/data/products.json";
 
 const BRANDS = [];
 const SWITCHTYPES = [];
+const PRODUCTS = [];
 
 // Used to fetch a single json file
 async function fetchData(url) {
@@ -31,7 +33,16 @@ async function initializePage() {
 
     if (PATH == "index.html") {
         let recommended = await fetchData(RECOMMENDEDURL);
-        displayRecommended(recommended);
+        let recommendedBlock = $("#recommended");
+        displayProducts(recommendedBlock, recommended);
+    }
+
+    if (PATH == "products.html") {
+        let products = await fetchData(PRODUCTSURL);
+        products.forEach(p => PRODUCTS.push(p));
+
+        let productsBlock = $("#all-products");
+        displayProducts(productsBlock, products);
     }
 }
 
@@ -53,12 +64,21 @@ function displayNavigation(navArray) {
     }
 }
 
-function displayRecommended(recommendedArray) {
-    let recommendedBlock = $("#recommended");
+function displayProducts(displayBlock, productsArray) {
+    // Calculating rows and adding product placeholders
     let html = "";
-    for (const product of recommendedArray) {
-        html += `
-            <div class="p-3 card position-relative" style="width: 22.5%;">
+    let rowCount = Math.ceil(productsArray.length / 4);
+    for (let i = 0; i < rowCount * 4; i++) {
+        html += '<div class="mm-product mb-4 mx-auto"></div>';
+    }
+    $(displayBlock).html(html);
+
+    // Putting products in placeholders
+    let i = 0;
+    let productHolders = $(".mm-product");
+    for (const product of productsArray) {
+        $(productHolders[i++]).html(`
+            <div class="p-3 card position-relative h-100">
                 <img class="card-img-top" src="${product.img.src}" alt="${product.img.alt}"/>
                 <div class="card-body position-relative">
                     <h3>${getBrandName(product.brand_id)}</h3>
@@ -66,12 +86,11 @@ function displayRecommended(recommendedArray) {
                     <p>$${product.price.current}</p>
                     ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s>` : ""}
                     ${product.hasOwnProperty("switch_types") ? showSwitchTypes(product.switch_types) : ""}
-                    </div>
+                </div>
                 <button class="position-absolute" style="bottom: 0px; right: 0px;">Add</button>
             </div>
-        `;
+        `);
     }
-    $(recommendedBlock).html(html);
 }
 
 function getBrandName(id) {

@@ -178,6 +178,11 @@ function showSortTypes(displayBlock, sortArray) {
         `;
     }
     $(displayBlock).html(html);
+    $(displayBlock).change((e) => {
+        // Get sort type and provide it
+        sortProducts(e.currentTarget.value);
+        console.log("change sort " + e.currentTarget.value)
+    });
 }
 
 async function generateFilter(filterURL, filterARR, displayBlockId) {
@@ -220,6 +225,30 @@ function isFilterEmpty() {
         if (FILTER[f].length != 0) return false;
     }
     return true;
+}
+
+function sortProducts(sortType) {
+    sortType = parseInt(sortType);
+    switch(sortType) {
+        case 1:
+            PRODUCTS.sort((a, b) => a.id > b.id);
+            break;
+        case 2:
+            console.log("Name asc");
+            console.log(PRODUCTS)
+            PRODUCTS.sort((a, b) => a.name > b.name);
+            break;
+        case 3:
+            PRODUCTS.sort((a, b) => a.name < b.name);
+            break;
+        case 4:
+            PRODUCTS.sort((a, b) => a.price.current > b.price.current);
+            break;
+        case 5:
+            PRODUCTS.sort((a, b) => a.price.current < b.price.current);
+            break;
+    }
+    displayProducts(PRODUCTS);
 }
 
 function getBrandName(id) {

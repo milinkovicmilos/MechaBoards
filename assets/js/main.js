@@ -32,6 +32,114 @@ const FILTER = {
     "producttype" : []
 }
 
+//#region Form error handling
+
+const formErrors = [
+    {
+        "formElementID" : "input-first-name",
+        "errorText" : "This field is required, please enter your name",
+        "regex" : ".+",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-first-name",
+        "errorText" : "Please enter valid name starting with capital letter",
+        "regex" : "[A-Z][a-z]{2,}([A-Z][a-z]{2,})*",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-last-name",
+        "errorText" : "This field is required, please enter your last name",
+        "regex" : ".+",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-last-name",
+        "errorText" : "Please enter valid last name starting with capital letter",
+        "regex" : "[A-Z][a-z]{2,}([A-Z][a-z]{2,})*",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-email",
+        "errorText" : "This field is required, please enter your e-mail address",
+        "regex" : ".+",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-email",
+        "errorText" : "Please enter correct e-mail address (e.g. johndoe@gmail.com)",
+        "regex" : "^([a-z]+\.?)+@[a-z]{2,}\.[a-z]{2,}$",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-phone-number",
+        "errorText" : "This field is required, please enter contact phone number",
+        "regex" : ".+",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "input-phone-number",
+        "errorText" : "Please enter correct contact number (e.g. +381 12 3456789)",
+        "regex" : "^\\+[0-9]{1,3} [0-9]{1,3} [0-9]{6,9}$",
+        "isVisible" : false
+    },
+    {
+        "formElementID" : "check-pp",
+        "errorText" : "Please accept our Privacy Policy to continue",
+        "regex" : "",
+        "isVisible" : false
+    }
+];
+
+function getFormErrorObjs(formID) {
+    let objs = [];
+    for (const element of formErrors) {
+        if (element.formElementID == formID) objs.push(element);
+    }
+    return objs;
+}
+
+function showError(formErrorObj) {
+    if (!formErrorObj.isVisible) {
+        $(`#${formErrorObj.formElementID}`).css("outline", "1px solid darkred");
+        let errorMessage = `<p class="error-text">${formErrorObj.errorText}</p>`;
+        $(errorMessage).insertAfter($(`#${formErrorObj.formElementID}`));
+        formErrorObj.isVisible = true;
+    }
+}
+
+function hideError(formErrorObj) {
+    if (formErrorObj.isVisible) {
+        $(`#${formErrorObj.formElementID}`).css("outline", "none");
+        $(`#${formErrorObj.formElementID} ~ p`).remove();
+        formErrorObj.isVisible = false;
+    }
+}
+
+function checkFormElement() {
+    let formErrorObjs = getFormErrorObjs(this.id);
+    for (const element of formErrorObjs) {
+        let regex = new RegExp(element.regex);
+        // Check in case that form element is checkbox
+        if ($(this).attr("type") == "checkbox") {
+            if ($(this).is(':checked')) {
+                hideError(element);
+            } else {
+                showError(element);
+                return;
+            }
+        }
+        if (regex.test(this.value)) {
+            hideError(element);
+        } else {
+            showError(element);
+            return;
+        }
+    }
+}
+
+//#endregion
+
 // Used to fetch a single json file
 async function fetchData(url) {
     try {
@@ -150,6 +258,13 @@ async function initializePage() {
         specificationValues.forEach(s => SPECIFICATIONS.push(s));
 
         displaySingleProduct(product);
+    }
+
+    if (PATH == "cart.html") {
+        let products = await fetchData(PRODUCTSURL);
+        products.forEach(p => PRODUCTS.push(p));
+
+        displayCart();
     }
 }
 
@@ -459,24 +574,42 @@ function generateSwitchButtons(switchIds) {
     return html;
 }
 
-function decreaseQuantity() {
+function decreaseQuantity(cartItemId = null) {
     let quantityBlock = $("#quantity");
     let quantity = parseInt($(quantityBlock).val());
     if (quantity > 1) {
-        $(quantityBlock).val(quantity - 1);
+        $(quantityBlock).val(--quantity);
+    }
+
+    if (cartItemId != null) {
+        let cart = getLocalStorage("cart");
+        cart.filter(x => x.cartId == cartItemId)[0].quantity = quantity;
+        addToLocalStorage("cart", cart);
+
+        $(`#cart-item-${cartItemId}`).children()[4].textContent = `$${calculateTotal(cartItemId)}`;
     }
 }
 
-function increaseQuantity() {
+function increaseQuantity(cartItemId = null) {
     let quantityBlock = $("#quantity");
     let quantity = parseInt($(quantityBlock).val());
     if (quantity < 10) {
-        $(quantityBlock).val(quantity + 1)
+        $(quantityBlock).val(++quantity)
+    }
+
+    if (cartItemId != null) {
+        let cart = getLocalStorage("cart");
+        cart.filter(x => x.cartId == cartItemId)[0].quantity = quantity;
+        addToLocalStorage("cart", cart);
+
+        $(`#cart-item-${cartItemId}`).children()[4].textContent = `$${calculateTotal(cartItemId)}`;
     }
 }
 
 function addToCart(itemId, quantity, switchType = 0) {
+    let nextCartId = getLocalStorage("nextCartId");
     const cartObj = {
+        "cartId" : nextCartId,
         "id" : itemId,
         "quantity" : parseInt(quantity),
         "switch_type" : parseInt(switchType)
@@ -485,7 +618,67 @@ function addToCart(itemId, quantity, switchType = 0) {
     cart.push(cartObj);
     addToLocalStorage("cart", cart);
     $("#post-add").slideDown();
+
+    addToLocalStorage("nextCartId", nextCartId + 1);
     console.log("Added to cart " + itemId + " Quantity : " + quantity);
+}
+
+function displayCart() {
+    let cartBlock = $("#cart-items");
+    let cartItems = getLocalStorage("cart");
+
+    if (cartItems.length == 0) {
+        let html = '<h3 class="text-center">No items in cart...</h3>';
+        cartBlock.html(html);
+    } else {
+        let html = `
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Name</th>
+                        <th>Switch type</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody class="table-striped">
+        `;
+        for (const el of cartItems) {
+            html += `
+                <tr id="cart-item-${el.cartId}">
+                    <td>/</td>
+                    <td>
+                        <a href="/products.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                        ${getSingleName(PRODUCTS, el.id)}
+                        </a>
+                    </td>
+                    <td>
+                        ${el.switch_type != 0 ? getSingleName(SWITCHTYPES, el.switch_type) : "/"}
+                    </td>
+                    <td>
+                        <div class="row mx-0 justify-content-between" style="width: 100px;">
+                            <button class="w-25 text-center" onClick="decreaseQuantity(${el.cartId})">&lt</button>
+                            <input type="text" readonly class="w-25 text-center form-control-plaintext d-block" id="quantity" value="${el.quantity}">
+                            <button class="w-25 text-center d-block" onClick="increaseQuantity(${el.cartId})">&gt</button>
+                        </div>
+                    </td>
+                    <td>
+                        $${calculateTotal(el.cartId)}
+                    </td>
+                    <td>
+                        <button class="btn btn-light">Remove</button>
+                    </td>
+                </tr>
+            `;
+        }
+        html += `
+                </tbody>
+            </table>
+        `;
+        $(cartBlock).html(html);
+    }
 }
 
 function addToLocalStorage(key, value) {
@@ -496,8 +689,59 @@ function getLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
 }
 
+function calculateTotal(cartId) {
+    let cartItem = getLocalStorage("cart").filter(x => x.cartId == cartId)[0];
+    let product = PRODUCTS.filter(x => x.id == cartItem.id)[0];
+    let total = product.price.current * cartItem.quantity;
+    total = total.toFixed(2);
+    return total;
+}
+
 initializePage();
 
 if (getLocalStorage("cart") == null) {
     addToLocalStorage("cart", []);
+    addToLocalStorage("nextCartId", 1);
 }
+
+window.addEventListener("load", () => {
+    // Select all form elements
+    let formElements = document.querySelectorAll('input[type="text"], #check-pp');
+
+    // Add appropriate event listeners to them
+    for (const element of formElements) {
+        let jQueryEl = $(element);
+        if (jQueryEl.attr("type") == "checkbox") {
+            $(element).change(checkFormElement);
+            continue;
+        }
+        jQueryEl.blur(checkFormElement);
+    }
+
+    // Make sure form is valid before submition
+    let form = document.querySelector("form");
+    if (form != null) {
+        // Add opening privacy policy menu
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+    
+            // Fires blur or change event on every form element so 
+            // that we can check if all form elements values are valid
+            for (const element of formElements) {
+                let jQueryEl = $(element);
+                if (jQueryEl.attr("type") == "checkbox") {
+                    jQueryEl.change();
+                    continue;
+                }
+                jQueryEl.blur();
+            }
+    
+            // After running checkFormElement for every form
+            // element if no errors are present we can submit the form
+            for (const element of formErrors) {
+                if (element.isVisible) return;
+            }
+            form.submit();
+        });
+    }
+});

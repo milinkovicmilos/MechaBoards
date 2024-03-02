@@ -42,6 +42,15 @@ section {
     height: 250px;
 }
 
+.red {
+    color: red;
+}
+
+.error-text {
+    font-size: 0.9rem;
+    color: darkred;
+}
+
 /* Header */
 #nav-menu-container {
     width: 90%;

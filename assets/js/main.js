@@ -266,6 +266,9 @@ async function initializePage() {
 
         displayCart();
     }
+
+    // Remove loading animaton
+    $("#loading").fadeOut(500);
 }
 
 // Displays navigation bars on the page provided the array of nav objects
@@ -313,7 +316,7 @@ function displayProducts(productsArray) {
     console.log(arr);
     let rowCount = Math.ceil(arr.length / 4);
     for (let i = 0; i < rowCount * 4; i++) {
-        html += '<div class="mm-product mb-4 mx-auto"></div>';
+        html += '<div class="mm-product mb-5 mx-auto"></div>';
     }
     $(PRODUCTSBLOCK).html(html);
     console.log($(PRODUCTSBLOCK))
@@ -323,16 +326,16 @@ function displayProducts(productsArray) {
     let productHolders = $(".mm-product");
     for (const product of arr) {
         $(productHolders[i++]).html(`
-            <div class="p-3 card position-relative h-100">
-                <img class="card-img-top" src="${product.img.src}" alt="${product.img.alt}"/>
-                <div class="card-body position-relative">
+            <div class="p-3 position-relative h-100">
+                <img src="${product.img.src}" alt="${product.img.alt}"/>
+                <div class="position-relative">
                     <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
                     <h4>${product.name}</h4>
                     <p>$${product.price.current}</p>
-                    ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s>` : ""}
-                    ${product.hasOwnProperty("switch_types") ? showSwitchTypes(product.switch_types) : ""}
+                    ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s><br>` : ""}
+                    ${product.hasOwnProperty("switch_types") ? showSwitchTypes(product.id, product.switch_types) : ""}
                 </div>
-                <button class="position-absolute" style="bottom: 0px; right: 0px;">Add</button>
+                <a href="/product.html?id=${product.id}" class="d-inline-block btn position-absolute" style="bottom: 0px; right: 0px;">See more</a>
             </div>
         `);
     }
@@ -400,9 +403,7 @@ function displaySingleProduct(product) {
                 <button id="hide" class="btn btn-light" onClick="$(this).parent().parent().slideUp();" style="width: 40%;">
                     Stay
                 </button>
-                <button id="hide" class="btn btn-light" style="width: 40%;">
-                    <a href="/cart.html" class="text-reset text-decoration-none">Go to cart</a>
-                </button>
+                <a href="/cart.html" class="text-reset text-decoration-none d-block btn btn-light" style="width: 40%;">Go to cart</a>
             </div>
         </div>
     `;
@@ -548,15 +549,15 @@ function getMultipleNames(objArray, idArray) {
     }
 }
 
-function showSwitchTypes(ids) {
-    let switches = SWITCHTYPES.filter(st => ids.includes(st.id));
-    let html = '<div class="position-absolute" style="bottom: 0px;">';
+function showSwitchTypes(productId, ids) {
+    let switches = SWITCHTYPES.filter(sw => ids.includes(sw.id));
+    let html = '';
     for (const sw of switches) {
         html += `
-            <button class="btn btn-light flex-end">${sw.name}</button>
+            <a href="/product.html?id=${productId}&switch=${sw.id}" class="mm-switch d-inline-block mb-2 btn btn-light flex-end">${sw.name}</a>
         `;
     }
-    return html + "</div>";
+    return html;
 }
 
 function generateSwitchButtons(switchIds) {
@@ -621,7 +622,16 @@ function increaseQuantity(cartItemId = null) {
 function removeItem(cartItemId) {
     let newCart = getLocalStorage("cart").filter(x => x.cartId != cartItemId);
     addToLocalStorage("cart", newCart);
-    $(`#cart-item-${cartItemId}`).remove();
+    if (newCart.length == 0) {
+        displayCart();
+    } else {
+        $(`#cart-item-${cartItemId}`).remove();
+    }
+}
+
+function lockForm() {
+    let formElements = $("input");
+    $(formElements).attr("disabled", "disabled");
 }
 
 function addToCart(itemId, quantity, switchType = 0) {
@@ -648,6 +658,7 @@ function displayCart() {
     if (cartItems.length == 0) {
         let html = '<h3 class="text-center">No items in cart...</h3>';
         cartBlock.html(html);
+        lockForm();
     } else {
         let html = `
             <table class="table">

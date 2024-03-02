@@ -16,6 +16,22 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+#loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: white;
+}
+
+#loading img {
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .mm-dark {
     background-color: rgba(0, 0, 0, 0.65);
 }
@@ -39,7 +55,16 @@ section {
 
 .mm-product {
     width: 90%;
-    height: 250px;
+}
+
+.mm-product > div {
+    border-radius: 5px;
+    border-bottom: 1px solid lightgray;
+}
+
+.mm-switches {
+    font-size: 0.9rem;
+    padding-top: 25px;
 }
 
 .red {

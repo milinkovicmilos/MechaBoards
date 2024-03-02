@@ -575,7 +575,8 @@ function generateSwitchButtons(switchIds) {
 }
 
 function decreaseQuantity(cartItemId = null) {
-    let quantityBlock = $("#quantity");
+    let cartRow = $(`#cart-item-${cartItemId}`)
+    let quantityBlock = cartRow.find("#quantity");
     let quantity = parseInt($(quantityBlock).val());
     if (quantity > 1) {
         $(quantityBlock).val(--quantity);
@@ -586,12 +587,13 @@ function decreaseQuantity(cartItemId = null) {
         cart.filter(x => x.cartId == cartItemId)[0].quantity = quantity;
         addToLocalStorage("cart", cart);
 
-        $(`#cart-item-${cartItemId}`).children()[4].textContent = `$${calculateTotal(cartItemId)}`;
+        cartRow.children()[4].textContent = `$${calculateTotal(cartItemId)}`;
     }
 }
 
 function increaseQuantity(cartItemId = null) {
-    let quantityBlock = $("#quantity");
+    let cartRow = $(`#cart-item-${cartItemId}`)
+    let quantityBlock = cartRow.find("#quantity");
     let quantity = parseInt($(quantityBlock).val());
     if (quantity < 10) {
         $(quantityBlock).val(++quantity)
@@ -602,7 +604,7 @@ function increaseQuantity(cartItemId = null) {
         cart.filter(x => x.cartId == cartItemId)[0].quantity = quantity;
         addToLocalStorage("cart", cart);
 
-        $(`#cart-item-${cartItemId}`).children()[4].textContent = `$${calculateTotal(cartItemId)}`;
+        cartRow.children()[4].textContent = `$${calculateTotal(cartItemId)}`;
     }
 }
 
@@ -643,7 +645,7 @@ function displayCart() {
                         <th>Remove</th>
                     </tr>
                 </thead>
-                <tbody class="table-striped">
+                <tbody>
         `;
         for (const el of cartItems) {
             html += `

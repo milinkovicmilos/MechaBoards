@@ -327,9 +327,9 @@ function displayProducts(productsArray) {
     for (const product of arr) {
         $(productHolders[i++]).html(`
             <div class="p-3 position-relative h-100">
-                <a href="/product?id=${product.id}"><img src="${product.img.src}" alt="${product.img.alt}"/></a>
+                <a href="/product.html?id=${product.id}"><img class="img-fluid mb-3" src="${product.img.src}" alt="${product.img.alt}"/></a>
                 <div class="position-relative pb-3">
-                    <a href="/product?id=${product.id}" class="text-reset text-decoration-none">
+                    <a href="/product.html?id=${product.id}" class="text-reset text-decoration-none">
                         <div>
                             <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
                             <h4>${product.name}</h4>
@@ -384,24 +384,28 @@ function displaySingleProduct(product) {
     
     // Second block
     let secondHtml = `
-        <h2>${getSingleName(BRANDS, product.brand_id)}</h2>
-        <h3>${product.name}</h3>
-        <p>Price : $${product.price.current}</p>
-        ${product.price.hasOwnProperty("previous") ? `<s class="py-1">$${product.price.previous}</s>` : ""}
-        ${product.hasOwnProperty("switch_types") ? `
-            <br>
-            <div class="btn-group py-2" role="group">
-                ${generateSwitchButtons(product.switch_types)}
-            </div>
-        ` : ""}
-        <p class="pt-3 mb-1">Quantity:</p>
-        <div class="row mx-0 justify-content-between" style="width: 100px;">
-            <button class="w-25 text-center" onClick="decreaseQuantity()">&lt</button>
-            <input type="text" readonly class="w-25 text-center form-control-plaintext d-block" id="quantity" value="1">
-            <button class="w-25 text-center d-block" onClick="increaseQuantity()">&gt</button>
+        <div class="w-50">
+            <h2>${getSingleName(BRANDS, product.brand_id)}</h2>
+            <h3>${product.name}</h3>
+            <p>Price : $${product.price.current}</p>
+            ${product.price.hasOwnProperty("previous") ? `<s class="py-1">$${product.price.previous}</s>` : ""}
+            ${product.hasOwnProperty("switch_types") ? `
+                <br>
+                <div class="btn-group py-2" role="group">
+                    ${generateSwitchButtons(product.switch_types)}
+                </div>
+            ` : ""}
         </div>
-        <button id="add-to-cart" class="my-3 px-3">Add to Cart</button>
-        <div id="post-add" style="display: none">
+        <div class="w-50">
+            <p class="pt-md-3 mb-1">Quantity:</p>
+            <div class="mm-quantity row mx-0 justify-content-between">
+                <button class="w-25 text-center" onClick="decreaseQuantity()">&minus;</button>
+                <input type="text" readonly class="w-25 text-center form-control-plaintext d-block" id="quantity" value="1">
+                <button class="w-25 text-center d-block" onClick="increaseQuantity()">&plus;</button>
+            </div>
+            <button id="add-to-cart" class="my-3 px-3">Add to Cart</button>
+        </div>
+        <div id="post-add" class="w-100" style="display: none">
             <div class="alert alert-success">You have successfully added item to cart.</div>
             <div class="row justify-content-between w-100 mx-auto">
                 <button id="hide" class="btn btn-light" onClick="$(this).parent().parent().slideUp();" style="width: 40%;">
@@ -526,6 +530,10 @@ function sortProducts(sortType) {
     displayProducts(PRODUCTS);
 }
 
+function getSingleObject(objArray, id) {
+    return objArray.filter(x => x.id == id)[0];
+}
+
 function getSingleName(objArray, id) {
     try {
         return objArray.filter(x => x.id == id)[0].name;
@@ -597,7 +605,7 @@ function decreaseQuantity(cartItemId = null) {
         cart.filter(x => x.cartId == cartItemId)[0].quantity = quantity;
         addToLocalStorage("cart", cart);
 
-        cartRow.children()[4].textContent = `$${calculateTotal(cartItemId)}`;
+        $(cartRow).find(".item-total")[0].textContent = `$${calculateTotal(cartItemId)}`;
         $("#cart-total").text(calculateCartTotal());
     }
 }
@@ -620,7 +628,7 @@ function increaseQuantity(cartItemId = null) {
         cart.filter(x => x.cartId == cartItemId)[0].quantity = quantity;
         addToLocalStorage("cart", cart);
 
-        cartRow.children()[4].textContent = `$${calculateTotal(cartItemId)}`;
+        $(cartRow).find(".item-total")[0].textContent = `$${calculateTotal(cartItemId)}`;
         $("#cart-total").text(calculateCartTotal());
     }
 }
@@ -678,9 +686,10 @@ function displayCart() {
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Product Image</th>
-                        <th>Product Name</th>
-                        <th>Switch type</th>
+                        <th class="d-sm-none">Product</th>
+                        <th class="d-none d-lg-table-cell">Product Image</th>
+                        <th class="d-none d-sm-table-cell">Product Name</th>
+                        <th class="d-none d-sm-table-cell">Switch type</th>
                         <th>Quantity</th>
                         <th>Total</th>
                         <th>Remove</th>
@@ -689,25 +698,37 @@ function displayCart() {
                 <tbody>
         `;
         for (const el of cartItems) {
+            let productObj = getSingleObject(PRODUCTS, el.id);
             html += `
                 <tr id="cart-item-${el.cartId}">
-                    <td>/</td>
-                    <td>
-                        <a href="/products.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                    <td class="d-sm-none">
+                        <a class="text-reset" 
+                        href="/product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                        ${getSingleName(PRODUCTS, el.id) + (el.switch_type != 0 ? ` ${getSingleName(SWITCHTYPES, el.switch_type)}` : "")}
+                        </a>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        <a href="/product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                            <img src="${productObj.img.src}" alt="${productObj.img.alt}">
+                        </a>
+                    </td>
+                    <td class="d-none d-sm-table-cell">
+                        <a class="text-reset" 
+                        href="/product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
                         ${getSingleName(PRODUCTS, el.id)}
                         </a>
                     </td>
-                    <td>
+                    <td class="d-none d-sm-table-cell">
                         ${el.switch_type != 0 ? getSingleName(SWITCHTYPES, el.switch_type) : "/"}
                     </td>
                     <td>
-                        <div class="row mx-0 justify-content-between" style="width: 100px;">
-                            <button class="w-25 text-center" onClick="decreaseQuantity(${el.cartId})">&lt</button>
+                        <div class="mm-quantity row mx-0 justify-content-between">
+                            <button class="text-center" onClick="decreaseQuantity(${el.cartId})">&minus;</button>
                             <input type="text" readonly class="w-25 text-center form-control-plaintext d-block" id="quantity" value="${el.quantity}">
-                            <button class="w-25 text-center d-block" onClick="increaseQuantity(${el.cartId})">&gt</button>
+                            <button class="text-center d-block" onClick="increaseQuantity(${el.cartId})">&plus;</button>
                         </div>
                     </td>
-                    <td>$${calculateTotal(el.cartId)}</td>
+                    <td class="item-total">$${calculateTotal(el.cartId)}</td>
                     <td>
                         <button class="btn btn-light" onClick="removeItem(${el.cartId})">Remove</button>
                     </td>
@@ -716,7 +737,9 @@ function displayCart() {
         }
         html += `
                 <tr>
-                    <td colspan="4" class="text-end"></td>
+                    <td class="d-none d-lg-table-cell" colspan="4" class="text-end"></td>
+                    <td class="d-none d-sm-table-cell d-lg-none" colspan="3" class="text-end"></td>
+                    <td class="d-sm-none" colspan="2"></td>
                     <td id="cart-total"></td>
                     <td><button class="btn btn-light" onClick="clearCart()">Clear cart</button></td>
                 </tr>
@@ -749,7 +772,7 @@ function calculateCartTotal() {
     let str = "$";
     let total = 0;
     for (const cartItem of cartItems) {
-        let quantityText = $(cartItem).children()[4].textContent;
+        let quantityText = cartItem.querySelector(".item-total").textContent;
         total += parseFloat(quantityText.substr(1));
     }
     total = total.toFixed(2);
@@ -804,6 +827,9 @@ window.addEventListener("load", () => {
             for (const element of formErrors) {
                 if (element.isVisible) return;
             }
+
+            // Submit form and reset cart
+            resetCart();
             form.submit();
         });
     }

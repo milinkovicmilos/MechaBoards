@@ -22,11 +22,19 @@
     .modal-dialog td {
         font-size: 1rem;
     }
+
+    #cart-items table {
+        font-size: 1rem;
+    }
+    .error-text {
+        font-size:0.8rem;
+    }
 }
 
 @media screen and (min-width: 768px) {
     body {
         padding-bottom: 140px;
+        font-size: 1rem;
     }
     #footer-content {
         height: 140px;
@@ -36,6 +44,15 @@
     }
     .mm-info {
         height: 60%;
+    }
+    body tbody, .form-control, #cart-items button {
+        font-size: 1rem !important;
+    }
+    .mm-quantity {
+        width: 130px;
+    }
+    .mm-quantity button {
+        width: 30%;
     }
 }
 

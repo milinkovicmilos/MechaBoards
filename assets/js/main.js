@@ -327,10 +327,14 @@ function displayProducts(productsArray) {
     for (const product of arr) {
         $(productHolders[i++]).html(`
             <div class="p-3 position-relative h-100">
-                <img src="${product.img.src}" alt="${product.img.alt}"/>
+                <a href="/product?id=${product.id}"><img src="${product.img.src}" alt="${product.img.alt}"/></a>
                 <div class="position-relative pb-3">
-                    <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
-                    <h4>${product.name}</h4>
+                    <a href="/product?id=${product.id}" class="text-reset text-decoration-none">
+                        <div>
+                            <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
+                            <h4>${product.name}</h4>
+                        </div>
+                    </a>
                     <p>$${product.price.current}</p>
                     ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s><br>` : ""}
                     ${product.hasOwnProperty("switch_types") ? showSwitchTypes(product.id, product.switch_types) : ""}

@@ -3,14 +3,15 @@
     padding: 0px;
 }
 :root {
-    --link-color: rgba(0, 0, 0, 0.65);
+    --link-color: var(--secondary);
     --link-hover-color: rgba(0, 0, 0, 0.8);
     --input-color: #808080;
     --focus-color: rgb(56, 56, 56);
-    --primary: #4682B4;
-    --secondary: #FFA500;
-    --accent: #3A3A3A;
-    --background: #A9A9A9;
+    --primary: #333333;
+    --secondary: #0099FF;
+    --accent: #CCCCCC;
+    --background: #F5F5F5;
+    --headerfooter: #e2e3e5;
 }
 
 body {
@@ -19,10 +20,113 @@ body {
     padding-bottom: 290px; /* Footer height */
     font-family: 'Roboto', sans-serif;
     font-size: 0.9em;
+    background-color: var(--background);
+    color: var(--primary);
+}
+h1 {
+    color: var(--accent);
+    transition: color 0.15s;
+}
+h1:hover {
+    color: var(--accent);
+}
+h2, h3, h4 {
+    color: var(--primary);
+}
+p {
+    color: var(--primary);
+}
+.mm-product p {
+    color: var(--secondary);
+}
+.mm-product s {
+    color: var(--primary);
+}
+a {
+    color: var(--primary);
+    transition: color 0.15s;
+}
+a:hover {
+    color: var(--accent);
 }
 
+header, footer {
+    background-color: var(--headerfooter);
+}
+header {
+    border-bottom: 1px solid var(--secondary);
+}
+footer {
+    border-top: 1px solid var(--secondary);
+}
+#footer-info .nav-link p {
+    color: var(--secondary);
+    transition: color 0.15s;
+}
+#footer-info .nav-link p:hover {
+    color: var(--accent);
+}
+
+.accordion-button {
+    background-color: var(--accent) !important;
+    color: var(--primary) !important;
+}
+
+#price {
+    color: var(--secondary);
+}
+
+#heading-options button {
+    background-color: var(--headerfooter);
+    transition: background-color 0.15s;
+}
+
+#post-add button, #post-add a{
+    background-color: var(--headerfooter);
+    transition: background-color 0.15s;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid var(--accent);
+    padding: 5px 0px;
+}
+
+#post-add button:hover, #post-add a:hover {
+    background-color: var(--accent);
+}
+
+#heading-options button:hover {
+    background-color: var(--accent);
+}
+.mm-switch {
+    background-color: var(--primary);
+    color: var(--accent);
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.15s;
+}
+.mm-switch:hover {
+    background-color: var(--input-color);
+}
+
+h1 {
+    color: var(--secondary);
+}
 body tbody, .form-control, #cart-items button {
     font-size: 0.9rem !important;
+}
+.nav-link {
+    color: var(--primary) !important;
+}
+.nav-link:hover {
+    color: var(--accent) !important;
+}
+i {
+    color: var(--primary);
+    transition: color 0.15s;
+}
+i:hover {
+    color: var(--accent);
 }
 
 #loading {
@@ -131,6 +235,10 @@ tr td img {
     justify-content: space-between;
 }
 
+#cart {
+    margin-top: 20px;
+}
+
 /* footer */
 footer {
     /* Keeps footer at the bottom of the screen */
@@ -153,13 +261,6 @@ footer {
     bottom: 20px;
     right: 30px;
 }
-i {
-    color: var(--link-color);
-    transition: color 0.15s;
-}
-i:hover {
-    color: var(--link-hover-color);
-}
 #author-container { 
     margin-top: 50px;
 }
@@ -181,11 +282,13 @@ i:hover {
     background-position-x: center;
     background-size: cover;
     position: relative;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--secondary);
 }
 
 #welcome h2 {
+    font-size: 1.8rem;
     margin-bottom: 10px;
+    color: var(--accent);
 }
 
 #welcome div {
@@ -193,13 +296,13 @@ i:hover {
     padding: 10px;
     border-radius: 25px;
     margin: 0px auto;
-    color: white;
     background-color: rgba(0, 0, 0, 0.45);
 }
 
 #welcome div p {
     text-align: justify;
     font-size: 0.9rem;
+    color: var(--background);
 }
 
 #promo {
@@ -208,12 +311,13 @@ i:hover {
     background-image: url("../img/Promo.jpg");
     background-size: cover;
     align-items: center;
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-top: 1px solid var(--secondary);
+    border-bottom: 1px solid var(--secondary);
 }
 
 #promo div {
-    background-color: lightgray;
+    background-color: var(--background);
+    border: 1px solid var(--secondary);
     width: 80%;
     border-radius: 25px;
     padding: 25px;
@@ -223,9 +327,16 @@ i:hover {
     display: block;
     margin: 0px auto;
     text-align: center;
+    background-color: var(--primary);
+    color: var(--accent);
+    transition: background-color 0.15s;
+}
+#promo div button:hover {
+    background-color: var(--input-color);
 }
 
 #promo div p {
     font-size: 0.9rem;
     text-align: justify;
+    color: var(--primary);
 }

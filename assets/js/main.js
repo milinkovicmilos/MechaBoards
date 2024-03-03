@@ -340,7 +340,7 @@ function displayProducts(productsArray) {
                     ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s><br>` : ""}
                     ${product.hasOwnProperty("switch_types") ? showSwitchTypes(product.id, product.switch_types) : ""}
                 </div>
-                <a href="./product.html?id=${product.id}" class="d-inline-block btn position-absolute" style="bottom: 0px; right: 0px;">See more</a>
+                <a href="./product.html?id=${product.id}" class="d-inline-block text-decoration-none position-absolute" style="bottom: 0px; right: 0px;">See more</a>
             </div>
         `);
     }
@@ -388,7 +388,7 @@ function displaySingleProduct(product) {
         <div class="w-50">
             <h2>${getSingleName(BRANDS, product.brand_id)}</h2>
             <h3>${product.name}</h3>
-            <p>Price : $${product.price.current}</p>
+            <p id="price">Price : $${product.price.current}</p>
             ${product.price.hasOwnProperty("previous") ? `<s class="py-1">$${product.price.previous}</s>` : ""}
             ${product.hasOwnProperty("switch_types") ? `
                 <br>
@@ -409,10 +409,10 @@ function displaySingleProduct(product) {
         <div id="post-add" class="w-100" style="display: none">
             <div class="alert alert-success">You have successfully added item to cart.</div>
             <div class="row justify-content-between w-100 mx-auto">
-                <button id="hide" class="btn btn-light" onClick="$(this).parent().parent().slideUp();" style="width: 40%;">
+                <button id="hide" onClick="$(this).parent().parent().slideUp();" style="width: 40%;">
                     Stay
                 </button>
-                <a href="./cart.html" class="text-reset text-decoration-none d-block btn btn-light" style="width: 40%;">Go to cart</a>
+                <a href="./cart.html" class="text-reset text-decoration-none d-inline-block" style="width: 40%;">Go to cart</a>
             </div>
         </div>
     `;
@@ -567,7 +567,7 @@ function showSwitchTypes(productId, ids) {
     let html = '';
     for (const sw of switches) {
         html += `
-            <a href="./product.html?id=${productId}&switch=${sw.id}" class="mm-switch d-inline-block mb-2 btn btn-light flex-end">${sw.name}</a>
+            <a href="./product.html?id=${productId}&switch=${sw.id}" class="mm-switch d-inline-block mb-2 flex-end">${sw.name}</a>
         `;
     }
     return html;

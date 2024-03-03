@@ -1,4 +1,5 @@
-const PATH = window.location.pathname.substring(1);
+let pathName = window.location.pathname.split("/");
+const PATH = pathName[pathName.length - 1];
 const NAVURL = "./assets/data/navigation.json";
 const RECOMMENDEDURL = "./assets/data/recommended.json";
 const BRANDSURL = "./assets/data/brands.json";

@@ -327,7 +327,7 @@ function displayProducts(productsArray) {
     for (const product of arr) {
         $(productHolders[i++]).html(`
             <div class="p-3 position-relative h-100">
-                <a href="/product.html?id=${product.id}"><img class="img-fluid mb-3" src="${product.img.src}" alt="${product.img.alt}"/></a>
+                <a href="./product.html?id=${product.id}"><img class="img-fluid mb-3" src="${product.img.src}" alt="${product.img.alt}"/></a>
                 <div class="position-relative pb-3">
                     <a href="/product.html?id=${product.id}" class="text-reset text-decoration-none">
                         <div>
@@ -339,7 +339,7 @@ function displayProducts(productsArray) {
                     ${product.price.hasOwnProperty("previous") ? `<s>$${product.price.previous}</s><br>` : ""}
                     ${product.hasOwnProperty("switch_types") ? showSwitchTypes(product.id, product.switch_types) : ""}
                 </div>
-                <a href="/product.html?id=${product.id}" class="d-inline-block btn position-absolute" style="bottom: 0px; right: 0px;">See more</a>
+                <a href="./product.html?id=${product.id}" class="d-inline-block btn position-absolute" style="bottom: 0px; right: 0px;">See more</a>
             </div>
         `);
     }
@@ -411,7 +411,7 @@ function displaySingleProduct(product) {
                 <button id="hide" class="btn btn-light" onClick="$(this).parent().parent().slideUp();" style="width: 40%;">
                     Stay
                 </button>
-                <a href="/cart.html" class="text-reset text-decoration-none d-block btn btn-light" style="width: 40%;">Go to cart</a>
+                <a href="./cart.html" class="text-reset text-decoration-none d-block btn btn-light" style="width: 40%;">Go to cart</a>
             </div>
         </div>
     `;
@@ -566,7 +566,7 @@ function showSwitchTypes(productId, ids) {
     let html = '';
     for (const sw of switches) {
         html += `
-            <a href="/product.html?id=${productId}&switch=${sw.id}" class="mm-switch d-inline-block mb-2 btn btn-light flex-end">${sw.name}</a>
+            <a href="./product.html?id=${productId}&switch=${sw.id}" class="mm-switch d-inline-block mb-2 btn btn-light flex-end">${sw.name}</a>
         `;
     }
     return html;
@@ -703,18 +703,18 @@ function displayCart() {
                 <tr id="cart-item-${el.cartId}">
                     <td class="d-sm-none">
                         <a class="text-reset" 
-                        href="/product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                        href="./product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
                         ${getSingleName(PRODUCTS, el.id) + (el.switch_type != 0 ? ` ${getSingleName(SWITCHTYPES, el.switch_type)}` : "")}
                         </a>
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        <a href="/product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                        <a href="./product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
                             <img src="${productObj.img.src}" alt="${productObj.img.alt}">
                         </a>
                     </td>
                     <td class="d-none d-sm-table-cell">
                         <a class="text-reset" 
-                        href="/product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
+                        href="./product.html?id=${el.id}${el.switch_type != 0 ? `&switch=${el.switch_type}` : ""}">
                         ${getSingleName(PRODUCTS, el.id)}
                         </a>
                     </td>

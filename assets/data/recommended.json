@@ -11,7 +11,7 @@
             "current" : 109.99
         },
         "img" : {
-            "src" : "/assets/img/product-img/Nuphy-Air60.png",
+            "src" : "./assets/img/product-img/Nuphy-Air60.png",
             "alt" : "NuPhy-Air60"
         }
     },
@@ -28,7 +28,7 @@
             "previous" : 179.99
         },
         "img" : {
-            "src" : "/assets/img/product-img/Keychron-Q3.png",
+            "src" : "./assets/img/product-img/Keychron-Q3.png",
             "alt" : "Keychron-Q3"
         }
     },
@@ -44,7 +44,7 @@
             "current" : 199.99
         },
         "img" : {
-            "src" : "/assets/img/product-img/Razer-Pro-Type-Ultra.png",
+            "src" : "./assets/img/product-img/Razer-Pro-Type-Ultra.png",
             "alt" : "Razer-Pro-Type-Ultra"
         }
     },
@@ -60,7 +60,7 @@
             "previous" : 79.99
         },
         "img" : {
-            "src" : "/assets/img/product-img/Razer-Ornata-V3.png",
+            "src" : "./assets/img/product-img/Razer-Ornata-V3.png",
             "alt" : "Razer-Ornata-V3"
         }
     }

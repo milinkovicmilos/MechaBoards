@@ -328,7 +328,7 @@ function displayProducts(productsArray) {
         $(productHolders[i++]).html(`
             <div class="p-3 position-relative h-100">
                 <img src="${product.img.src}" alt="${product.img.alt}"/>
-                <div class="position-relative">
+                <div class="position-relative pb-3">
                     <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
                     <h4>${product.name}</h4>
                     <p>$${product.price.current}</p>
@@ -594,6 +594,7 @@ function decreaseQuantity(cartItemId = null) {
         addToLocalStorage("cart", cart);
 
         cartRow.children()[4].textContent = `$${calculateTotal(cartItemId)}`;
+        $("#cart-total").text(calculateCartTotal());
     }
 }
 
@@ -616,6 +617,7 @@ function increaseQuantity(cartItemId = null) {
         addToLocalStorage("cart", cart);
 
         cartRow.children()[4].textContent = `$${calculateTotal(cartItemId)}`;
+        $("#cart-total").text(calculateCartTotal());
     }
 }
 
@@ -624,9 +626,17 @@ function removeItem(cartItemId) {
     addToLocalStorage("cart", newCart);
     if (newCart.length == 0) {
         displayCart();
+        addToLocalStorage("cart", []);
+        addToLocalStorage("nextCartId", 1);
     } else {
         $(`#cart-item-${cartItemId}`).remove();
+        $("#cart-total").text(calculateCartTotal());
     }
+}
+
+function clearCart() {
+    resetCart();
+    displayCart();
 }
 
 function lockForm() {
@@ -693,9 +703,7 @@ function displayCart() {
                             <button class="w-25 text-center d-block" onClick="increaseQuantity(${el.cartId})">&gt</button>
                         </div>
                     </td>
-                    <td>
-                        $${calculateTotal(el.cartId)}
-                    </td>
+                    <td>$${calculateTotal(el.cartId)}</td>
                     <td>
                         <button class="btn btn-light" onClick="removeItem(${el.cartId})">Remove</button>
                     </td>
@@ -703,10 +711,16 @@ function displayCart() {
             `;
         }
         html += `
+                <tr>
+                    <td colspan="4" class="text-end"></td>
+                    <td id="cart-total"></td>
+                    <td><button class="btn btn-light" onClick="clearCart()">Clear cart</button></td>
+                </tr>
                 </tbody>
             </table>
         `;
         $(cartBlock).html(html);
+        $("#cart-total").text(calculateCartTotal());
     }
 }
 
@@ -726,11 +740,27 @@ function calculateTotal(cartId) {
     return total;
 }
 
+function calculateCartTotal() {
+    let cartItems = $("[id^=cart-item-");
+    let str = "$";
+    let total = 0;
+    for (const cartItem of cartItems) {
+        let quantityText = $(cartItem).children()[4].textContent;
+        total += parseFloat(quantityText.substr(1));
+    }
+    total = total.toFixed(2);
+    return str += total;
+}
+
+function resetCart() {
+    addToLocalStorage("cart", []);
+    addToLocalStorage("nextCartId", 1);
+}
+
 initializePage();
 
 if (getLocalStorage("cart") == null) {
-    addToLocalStorage("cart", []);
-    addToLocalStorage("nextCartId", 1);
+    resetCart();
 }
 
 window.addEventListener("load", () => {

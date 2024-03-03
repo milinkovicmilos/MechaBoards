@@ -72,8 +72,9 @@ section {
 }
 
 .error-text {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: darkred;
+    position: absolute;
 }
 
 /* Header */

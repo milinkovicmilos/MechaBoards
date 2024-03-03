@@ -26,7 +26,12 @@
     },
     {
         "id" : 6,
-        "name" : "Cart",
+        "name" : "<i class='fa-solid fa-cart-shopping'></i>",
         "href" : "cart.html"
+    },
+    {
+        "id" : 7,
+        "name" : "Author",
+        "href" : "author.html"
     }
 ]

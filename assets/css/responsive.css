@@ -29,6 +29,11 @@
     .error-text {
         font-size:0.8rem;
     }
+    #welcome div {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -54,6 +59,23 @@
     .mm-quantity button {
         width: 30%;
     }
+    #welcome div {
+        width: 45%;
+        padding: 25px;
+    }
+    #welcome div p {
+        font-size: 1rem;
+    }
+    #promo {
+        align-items: flex-end;
+    }
+    #promo div {
+        margin-right: 25px;
+        width: 50%;
+    }
+    #promo div p {
+        font-size: 1rem;
+    }
 }
 
 @media screen and (min-width: 1200px) {
@@ -68,5 +90,28 @@
     }
     #author-container .row {
         width: 70%;
+    }
+    #welcome div {
+        left: 60px;
+        bottom: 60px;
+    }
+    #welcome div p {
+        font-size: 1.1rem;
+    }
+    #promo {
+        background-position-y: 20%;
+    }
+    #promo div p {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #promo {
+        background-position-y: 25%;
+    }
+    #promo div {
+        width: 35%;
+        margin-right: 5%;
     }
 }

@@ -163,7 +163,7 @@ async function initializePage() {
     let switchTypes = await fetchData(SWITCHTYPESURL);
     switchTypes.forEach(sw => SWITCHTYPES.push(sw));
 
-    if (PATH == "index.html") {
+    if (PATH == "index.html" || PATH == "") {
         let recommended = await fetchData(RECOMMENDEDURL);
         displayProducts(recommended);
     }
@@ -330,7 +330,7 @@ function displayProducts(productsArray) {
             <div class="p-3 position-relative h-100">
                 <a href="./product.html?id=${product.id}"><img class="img-fluid mb-3" src="${product.img.src}" alt="${product.img.alt}"/></a>
                 <div class="position-relative pb-3">
-                    <a href="/product.html?id=${product.id}" class="text-reset text-decoration-none">
+                    <a href="./product.html?id=${product.id}" class="text-reset text-decoration-none">
                         <div>
                             <h3>${getSingleName(BRANDS, product.brand_id)}</h3>
                             <h4>${product.name}</h4>
@@ -349,7 +349,7 @@ function displayProducts(productsArray) {
 function displaySingleProduct(product) {
     // First block
     let html = `
-        <img class="img-fluid" src="${product.img.src}" alt="${product.img.alt}">
+        <img class="img-fluid mb-3" src="${product.img.src}" alt="${product.img.alt}">
         <table class="table table-striped">
             <tbody>
                 <tr>

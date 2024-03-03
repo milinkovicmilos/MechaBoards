@@ -7,6 +7,10 @@
     --link-hover-color: rgba(0, 0, 0, 0.8);
     --input-color: #808080;
     --focus-color: rgb(56, 56, 56);
+    --primary: #4682B4;
+    --secondary: #FFA500;
+    --accent: #3A3A3A;
+    --background: #A9A9A9;
 }
 
 body {
@@ -155,4 +159,73 @@ i {
 }
 i:hover {
     color: var(--link-hover-color);
+}
+#author-container { 
+    margin-top: 50px;
+}
+#author-picture-container img {
+    max-height: 400px;
+}
+
+#add-to-cart {
+    border-radius: 20px;
+    border: 1px solid lightgray;
+    padding: 10px;
+    width: 100%;
+}
+
+#welcome {
+    width: 100%;
+    height: clamp(250px, 50vw, 800px);
+    background-image: url("../img/Banner.jpg");
+    background-position-x: center;
+    background-size: cover;
+    position: relative;
+    border-bottom: 1px solid lightgray;
+}
+
+#welcome h2 {
+    margin-bottom: 10px;
+}
+
+#welcome div {
+    width: 80%;
+    padding: 10px;
+    border-radius: 25px;
+    margin: 0px auto;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+#welcome div p {
+    text-align: justify;
+    font-size: 0.9rem;
+}
+
+#promo {
+    width: 100%;
+    height: clamp(150px, 50vw, 350px);
+    background-image: url("../img/Promo.jpg");
+    background-size: cover;
+    align-items: center;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+}
+
+#promo div {
+    background-color: lightgray;
+    width: 80%;
+    border-radius: 25px;
+    padding: 25px;
+}
+
+#promo div button {
+    display: block;
+    margin: 0px auto;
+    text-align: center;
+}
+
+#promo div p {
+    font-size: 0.9rem;
+    text-align: justify;
 }

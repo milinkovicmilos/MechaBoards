@@ -1,3 +1,8 @@
+@media screen and (min-width: 350px) {
+    #welcome h2 {
+        font-size: 1.8rem;
+    }
+}
 @media screen and (min-width: 425px) {
     /* Courses page */
     #carousel-reviews .carousel-inner {

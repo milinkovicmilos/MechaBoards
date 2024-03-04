@@ -36,6 +36,12 @@ h2, h3, h4 {
 p {
     color: var(--primary);
 }
+.mm-product img {
+    transition: transform 0.2s;
+}
+.mm-product img:hover {
+    transform: scale(1.1);
+}
 .mm-product p {
     color: var(--secondary);
 }
@@ -79,6 +85,10 @@ footer {
 #heading-options button {
     background-color: var(--headerfooter);
     transition: background-color 0.15s;
+}
+
+#heading-options .btn-outline-primary {
+    border: 1px solid var(--secondary) !important;
 }
 
 #post-add button, #post-add a{
@@ -127,6 +137,30 @@ i {
 }
 i:hover {
     color: var(--accent);
+}
+i.fa-cart-shopping {
+    position: relative;
+    padding: 0px 5px;
+    font-size: 1.25rem;
+}
+.cart-item-number {
+    position: absolute;
+    padding: 5px;
+    top: -10px;
+    right: -10px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    color: var(--accent);
+    text-align: center;
+    font-size: 0.8rem !important;
+    font-weight: normal;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 1px solid var(--secondary);
 }
 
 #loading {
@@ -252,9 +286,6 @@ footer {
 #footer-info {
     height: 45%;
 }
-#socials-container {
-    padding: 10px 0px;
-}
 #to-top-btn {
     position: fixed;
     z-index: 1;
@@ -286,7 +317,7 @@ footer {
 }
 
 #welcome h2 {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     margin-bottom: 10px;
     color: var(--accent);
 }
@@ -317,7 +348,7 @@ footer {
 
 #promo div {
     background-color: var(--background);
-    border: 1px solid var(--secondary);
+    border: 1px solid var(--accent);
     width: 80%;
     border-radius: 25px;
     padding: 25px;

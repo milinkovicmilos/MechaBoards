@@ -156,6 +156,7 @@ async function fetchData(url) {
 async function initializePage() {
     let navigation = await fetchData(NAVURL);
     displayNavigation(navigation);
+    displayTotalCartItems();
 
     let brands = await fetchData(BRANDSURL);
     brands.forEach(b => BRANDS.push(b));
@@ -645,11 +646,14 @@ function removeItem(cartItemId) {
         $(`#cart-item-${cartItemId}`).remove();
         $("#cart-total").text(calculateCartTotal());
     }
+
+    displayTotalCartItems();
 }
 
 function clearCart() {
     resetCart();
     displayCart();
+    displayTotalCartItems();
 }
 
 function lockForm() {
@@ -671,6 +675,7 @@ function addToCart(itemId, quantity, switchType = 0) {
     $("#post-add").slideDown();
 
     addToLocalStorage("nextCartId", nextCartId + 1);
+    displayTotalCartItems();
     console.log("Added to cart " + itemId + " Quantity : " + quantity);
 }
 
@@ -778,6 +783,24 @@ function calculateCartTotal() {
     }
     total = total.toFixed(2);
     return str += total;
+}
+
+function displayTotalCartItems() {
+    let numberOfCartItems = getLocalStorage("cart").length;
+    if (numberOfCartItems != 0) {
+        let html = `
+            <div class="cart-item-number">
+                ${numberOfCartItems > 9 ? "9+" : numberOfCartItems}
+            </div>
+        `;
+        $("i.fa-cart-shopping").append(html);
+    } else {
+        // Remove all numbers if all items from cart have been removed
+        let blocks = $(".cart-item-number");
+        if (blocks != 0) {
+            $(blocks).remove();
+        }
+    }
 }
 
 function resetCart() {

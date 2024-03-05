@@ -1,5 +1,5 @@
 @media screen and (min-width: 350px) {
-    #welcome h2 {
+    #welcome h1 {
         font-size: 1.8rem;
     }
 }
@@ -7,6 +7,9 @@
     /* Courses page */
     #carousel-reviews .carousel-inner {
         height: 475px;
+    }
+    .mm-quantity {
+        width: 110px;
     }
 }
 @media screen and (min-width: 576px) {
@@ -108,6 +111,9 @@
     }
     #promo div p {
         font-size: 1.1rem;
+    }
+    h1 {
+        font-size: 2rem;
     }
 }
 

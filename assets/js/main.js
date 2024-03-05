@@ -659,6 +659,8 @@ function clearCart() {
 function lockForm() {
     let formElements = $("input");
     $(formElements).attr("disabled", "disabled");
+    $(".error-text").remove();
+    $("input").css("outline", "none");
 }
 
 function addToCart(itemId, quantity, switchType = 0) {

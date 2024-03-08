@@ -89,6 +89,12 @@ const formErrors = [
         "errorText" : "Please accept our Privacy Policy to continue",
         "regex" : "",
         "isVisible" : false
+    },
+    {
+        "formElementID" : "input-address",
+        "errorText" : "This field is required, please enter your address",
+        "regex" : ".+",
+        "isVisible" : false
     }
 ];
 
